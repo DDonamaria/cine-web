@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>cineWeb</display-name>
+  
+  <servlet>
+    <servlet-name>springmvc</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    	<init-param> <!-- En caso de cambiar la ruta y nombre del servlet -->
+    		<param-name>contextConfigLocation</param-name>
+    		<param-value>/WEB-INF/spring/dispacher-servlet.xml</param-value>
+    	</init-param>
+    <load-on-startup>1</load-on-startup>
+    
+	<multipart-config>
+		<location>C:\Users\David\tmp</location>
+	</multipart-config>    
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>springmvc</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Para hacer el trackeo mediante cookie y no por URL -->
+  <session-config>
+    <tracking-mode>COOKIE</tracking-mode>
+  </session-config>
+  
+  <!-- Necesario para el ContextLoaderListener (Root Context) -->
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>/WEB-INF/spring/root-context.xml</param-value>
+  </context-param>
+  
+  <!-- Para el arranque del Root Context antes de inicializar el Servlet -->
+  <listener>
+  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  
+</web-app>
