@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="Noticias")
@@ -18,13 +20,14 @@ public class Noticia {
 	
 	private String titulo;
 	
+	@Temporal(TemporalType.DATE)
 	private Date fecha;
 	
 	private String detalle;
 	private String estatus;
 	
 	public Noticia(){
-		this.fecha = new Date();
+		this.fecha = new Date(); //Por default define la fecha actual
 		this.estatus="Activa";
 	}
 

@@ -80,20 +80,7 @@
 	              <form:option value="${genero }">${genero }</form:option>
 	            <!--   </c:forEach>--> 
               </form:select>
-                            
-              
-              <!--<form:select id="genero" path="genero" class="form-control">
-                <form:option value="Accion">Accion</form:option>
-                <form:option value="Aventura">Aventura </form:option>
-                <form:option value="Clasicas">Clasicas</form:option>                  
-                <form:option value="Comedia Romantica">Comedia Romantica</form:option>                  
-                <form:option value="Drama">Drama</form:option>                  
-                <form:option value="Terror">Terror</form:option>                  
-                <form:option value="Infantil">Infantil</form:option>                  
-                <form:option value="Accion y Aventura">Accion y Aventura</form:option>                  
-                <form:option value="Romantica">Romantica</form:option>                 
-              </form:select>    -->    
-                    
+
             </div> 
           </div>         
         </div>

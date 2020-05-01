@@ -14,6 +14,7 @@
     <title>Listado de imagenes del banner</title>
     <spring:url value="/resources" var="urlPublic" />
     <spring:url value="/banners/create" var="urlCreate" />
+    <spring:url value="/banners/indexPaginate" var="urlBanners" />
     <link href="${urlPublic}/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="${urlPublic}/bootstrap/css/theme.css" rel="stylesheet">
     
@@ -44,7 +45,7 @@
                 <th>Estatus</th>
                 <th>Opciones</th>              
             </tr>
-            <c:forEach items="${banners}" var="banner">
+            <c:forEach items="${banners.content}" var="banner">
 	            <tr>
 	                <td>${banner.id}</td>
 	                <td>${banner.titulo}</td>
@@ -65,6 +66,14 @@
 	            </tr>
             </c:forEach>
         </table>
+        
+        <nav aria-label="">
+			<ul class="pager">
+				<li><a href="${urlBanners}?page=${banners.number - 1 }">Anterior</a></li>
+				<li><a href="${urlBanners}?page=${banners.number + 1 }">Siguiente</a></li>
+			</ul>
+		</nav>
+        
       </div>  
       <hr class="featurette-divider">
 

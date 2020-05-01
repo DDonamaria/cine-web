@@ -19,9 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class Utileria {
 
 	/**
-	 * Metodo que devuelve una Lista de Strings con las fechas siguientes,
-	 * determinando el numero el parametro count
-	 * 
+	 * Metodo que devuelve las fechas X fechas siguientes a la actual
 	 * @param count
 	 * @return
 	 */
@@ -46,7 +44,6 @@ public class Utileria {
 
 	/**
 	 * Metodo para guardar una imagen en una ruta especificada
-	 * 
 	 * @param multiPart
 	 * @param request
 	 * @return
@@ -64,15 +61,18 @@ public class Utileria {
 		// Para evitar la ruta qeu monta por estar bajo git
 		// C:\Users\David\Mis
 		// Docus\Workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\cinemaWeb\resources
-//		String rutaRear = "C:\\Users\\David\\Mis Docus\\Workspace\\repository_Git\\cinemaWeb\\cinemaWeb\\webapp\\resources\\images\\";
+		String rutaReal = "C:\\Users\\David\\Mis Docus\\Workspace\\repository_Git\\cinemaWeb\\cinemaWeb\\webapp\\resources\\images\\";
 
 		try {
 			// Formamos el nombre del archivo para guardarlo en el disco duro
 			File imageFile = new File(rutaFinal + nombreFinal);
+			File imageFileReal = new File(rutaReal + nombreFinal);
 			//Para crear en la ruta temporal del IDE eclipse
 			new File(rutaFinal + nombreFinal);
+			new File(rutaReal + nombreFinal);
 			// Aqui se guarda fisicamente el archivo en el disco duro
 			multiPart.transferTo(imageFile);
+			multiPart.transferTo(imageFileReal);
 			return nombreFinal;
 		} catch (IOException e) {
 			System.out.println("Error " + e.getMessage());
@@ -81,8 +81,7 @@ public class Utileria {
 	}
 
 	/**
-	 * Metodo que genera una secuencia de letras aleatoria con a longitud dada
-	 * 
+	 * Metodo que genera una secuencia de letras aleatoria con la longitud dada
 	 * @param length
 	 * @return
 	 */

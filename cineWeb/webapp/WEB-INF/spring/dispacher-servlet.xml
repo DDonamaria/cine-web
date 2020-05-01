@@ -8,7 +8,9 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 
 	<context:component-scan base-package="com.spring.app.controller" />
+	
 	<mvc:annotation-driven />
+	
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix">
@@ -19,7 +21,19 @@
 		</property>
 	</bean>
 	
+	<!-- Definicion del directorio donde se ubican los recursos -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
+	
+	<!-- Integracion de la paginacion por defecto -->
+	<mvc:annotation-driven >
+		<mvc:argument-resolvers>
+			<bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver">
+				<property name="maxPageSize" value="5"></property>
+			</bean>
+		</mvc:argument-resolvers>
+	</mvc:annotation-driven>
 
+	<!-- Configuracion del bean de Multipar para la Carga de Imagenes -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver" />
+	
 </beans>

@@ -2,6 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
   <display-name>cineWeb</display-name>
   
+  <!-- Configuracion del dispacher Servlet (Web Context) -->
   <servlet>
     <servlet-name>springmvc</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -11,11 +12,13 @@
     	</init-param>
     <load-on-startup>1</load-on-startup>
     
+    <!-- Configuracion del multipar (Carga de imagenes) -->
 	<multipart-config>
 		<location>C:\Users\David\tmp</location>
 	</multipart-config>    
   </servlet>
   
+  <!-- Configuracion del patron de URL -->
   <servlet-mapping>
     <servlet-name>springmvc</servlet-name>
     <url-pattern>/</url-pattern>
@@ -36,5 +39,14 @@
   <listener>
   	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+  
+  <!-- Personalizacion paginas de error -->
+  <error-page>
+  	<error-code>404</error-code>
+   	<location>/WEB-INF/views/error/404.jsp</location>
+  </error-page>
+  
+  
+	
   
 </web-app>
