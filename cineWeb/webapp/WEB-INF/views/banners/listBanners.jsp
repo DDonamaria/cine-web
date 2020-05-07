@@ -2,7 +2,6 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -14,6 +13,8 @@
     <title>Listado de imagenes del banner</title>
     <spring:url value="/resources" var="urlPublic" />
     <spring:url value="/banners/create" var="urlCreate" />
+    <spring:url value="/banners/edit" var="urlEdit" />
+    <spring:url value="/banners/delete" var="urlDelete" />
     <spring:url value="/banners/indexPaginate" var="urlBanners" />
     <link href="${urlPublic}/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="${urlPublic}/bootstrap/css/theme.css" rel="stylesheet">
@@ -29,9 +30,9 @@
 
       <h3>Listado de imagenes del Banner</h3>
       
-      <c:if test="${mensaje != null}">
-      	<div class="label label-success" role="alert">${mensaje}</div><br /><br />
-      </c:if>
+       <c:if test="${mensaje !=null }">        
+        		<div class='alert alert-success' role='alert'>${mensaje}</div>
+        </c:if>	
       
       <a href="${urlCreate}" class="btn btn-success" role="button" title="Nuevo Banner" >Nuevo</a><br><br>
 
@@ -40,7 +41,6 @@
             <tr>
                 <th>Id</th>
                 <th>Titulo</th>                           
-                <th>Fecha Publicacion</th>              
                 <th>Nombre Archivo</th>
                 <th>Estatus</th>
                 <th>Opciones</th>              
@@ -49,7 +49,6 @@
 	            <tr>
 	                <td>${banner.id}</td>
 	                <td>${banner.titulo}</td>
-	                <td><fmt:formatDate value="${banner.fecha}" pattern="dd-MM-yyyy" /></td>    
 	                <td>${banner.archivo}</td>
 	                <c:choose>
 	                	<c:when test="${banner.estatus eq 'Activo'}">
@@ -60,19 +59,27 @@
 	                	</c:otherwise>
 	                </c:choose>
 	                <td>
-	                    <a href="#" class="btn btn-success btn-sm" role="button" title="Edit" ><span class="glyphicon glyphicon-pencil"></span></a>
-	                    <a href="#" class="btn btn-danger btn-sm" role="button" title="Eliminar" ><span class="glyphicon glyphicon-trash"></span></a>
+	                    <a href="${urlEdit}/${banner.id}" class="btn btn-success btn-sm" role="button" title="Edit" ><span class="glyphicon glyphicon-pencil"></span></a>
+	                    <a href="${urlDelete}/${banner.id}" onclick='return confirm("¿Desea eliminar el banner?")' class="btn btn-danger btn-sm" role="button" title="Eliminar" ><span class="glyphicon glyphicon-trash"></span></a>
 	                </td>
 	            </tr>
             </c:forEach>
         </table>
         
+        
         <nav aria-label="">
-			<ul class="pager">
-				<li><a href="${urlBanners}?page=${banners.number - 1 }">Anterior</a></li>
-				<li><a href="${urlBanners}?page=${banners.number + 1 }">Siguiente</a></li>
-			</ul>
-		</nav>
+				<ul class="pager">
+				
+					<c:if test="${banners.number>0 }">
+						<li><a href="${urlBanners}?page=${banners.number - 1 }">Anterior</a></li>
+					</c:if>
+				
+					<c:if test="${banners.number<banners.totalPages -1}">
+						<li><a href="${urlBanners}?page=${banners.number + 1 }">Siguiente</a></li>
+					</c:if>
+					
+				</ul>
+			</nav>
         
       </div>  
       <hr class="featurette-divider">

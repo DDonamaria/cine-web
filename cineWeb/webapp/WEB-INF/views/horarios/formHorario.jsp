@@ -25,7 +25,7 @@
 	
 	<div class="container theme-showcase" role="main">
 
-	  <h3 class="blog-title"><span class="label label-success">Datos del Horario</span></h3>
+	  <h3 class="blog-title">Datos del Horario</h3>
 	  
 	  <spring:hasBindErrors name="horario">
 			<div class='alert alert-danger' role='alert'>

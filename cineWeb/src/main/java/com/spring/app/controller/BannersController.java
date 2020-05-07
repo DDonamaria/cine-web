@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,12 +29,9 @@ public class BannersController {
 	
 	@Autowired
 	private IBannersService serviceBanners;
+	
+	private String ImgBannerPrev;
 
-	/**
-	 * Metodo para mostrar listado de banner
-	 * @param model
-	 * @return
-	 */
 	@GetMapping("/index")
 	public String mostrarBanner(Model model) {
 		List<Banner> banners = serviceBanners.buscarTodos();
@@ -40,12 +39,6 @@ public class BannersController {
 		return "banners/listBanners";
 	}
 	
-	/**
-	 * Metodo para mostrar listado de banner PAGINADO
-	 * @param model
-	 * @param page
-	 * @return
-	 */
 	@GetMapping("/indexPaginate")
 	public String mostrarBannerPaginado(Model model, Pageable page) {
 		Page<Banner> banners = serviceBanners.buscarTodos(page);
@@ -53,24 +46,11 @@ public class BannersController {
 		return "banners/listBanners";
 	}
 	
-	/**
-	 * Metodo para direccionar a la creacion de banners
-	 * @return
-	 */
 	@GetMapping("/create")
-	public String crear() {
+	public String crear(@ModelAttribute Banner banner) {
 		return "banners/formBanner";
 	}
 
-	/**
-	 * Metodo para crear/actualizar un banner
-	 * @param banner
-	 * @param result
-	 * @param multipart
-	 * @param request
-	 * @param attributes
-	 * @return
-	 */
 	@PostMapping("/save")
 	public String guardar(Banner banner, BindingResult result, @RequestParam("archivoImagen") MultipartFile multipart,
 			HttpServletRequest request, RedirectAttributes attributes) {
@@ -84,11 +64,30 @@ public class BannersController {
 		//Comprobamos si se ha cargado alguna imagen
 		if(!multipart.isEmpty()) {
 			banner.setArchivo(Utileria.guardarImagen(multipart, request));
-		}
+		} else if(multipart.isEmpty() && !ImgBannerPrev.isEmpty()) {
+			banner.setArchivo(ImgBannerPrev);
+		} 
+		ImgBannerPrev= null;
 		
 		serviceBanners.guardar(banner);
 		attributes.addFlashAttribute("mensaje", "El banner se guardo correctamente");
+		return "redirect:/banners/indexPaginate";
+	}
+	
+	@GetMapping(value = "/edit/{id}")
+	public String editar(@PathVariable("id") int idBanner, Model model) {
+		Banner banner = serviceBanners.buscarPorId(idBanner);
+		ImgBannerPrev = banner.getArchivo();
+		model.addAttribute("banner", banner);
+		return "banners/formBanner";
+	}
+	
+	@GetMapping(value = "/delete/{id}")
+	public String eliminar(@PathVariable("id") int idBanner, RedirectAttributes attributes) {
+		serviceBanners.eliminar(idBanner);
+		attributes.addFlashAttribute("mensaje", "El banner fue eliminado");
 		return "redirect:/banners/index";
+
 	}
 
 }

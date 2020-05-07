@@ -1,7 +1,5 @@
 package com.spring.app.model;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,9 +14,9 @@ public class Banner {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String titulo;
-	private Date fecha; //fecha de publicacion
 	private String archivo; //nombre de la imagen
 	private String estatus;
+	
 	public int getId() {
 		return id;
 	}
@@ -30,12 +28,6 @@ public class Banner {
 	}
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
-	}
-	public Date getFecha() {
-		return fecha;
-	}
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
 	}
 	public String getArchivo() {
 		return archivo;
@@ -52,7 +44,7 @@ public class Banner {
 	
 	@Override
 	public String toString() {
-		return "Banner [id=" + id + ", titulo=" + titulo + ", fecha=" + fecha + ", archivo=" + archivo + ", estatus="
+		return "Banner [id=" + id + ", titulo=" + titulo + ", archivo=" + archivo + ", estatus="
 				+ estatus + "]";
 	}
 	

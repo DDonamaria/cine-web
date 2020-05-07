@@ -26,7 +26,7 @@
                 <img src="${urlPublic}/images/error.png" width="48" height="48" class="center">
                 <h4>La página solicitada no existe!</h4>                
                 <br>
-                <button class="btn btn-success" onclick="goBack()">REGRESAR</button>
+                <button class="btn btn-success" onclick="goBack()">Volver</button>
             </div>
         </div>
         <jsp:include page="../includes/footer.jsp"></jsp:include>        

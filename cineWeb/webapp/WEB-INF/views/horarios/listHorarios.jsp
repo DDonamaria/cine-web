@@ -52,18 +52,26 @@
 						<td>$${horario.precio}</td>					
 						<td>
 							<a href="${urlHorarios}/edit/${horario.id}" class="btn btn-success btn-sm" role="button" title="Edit"><span class="glyphicon glyphicon-pencil"></span></a>							
-							<a href="${urlHorarios}/delete/${horario.id}" onclick='return confirm("¿Estas seguro?")' class="btn btn-danger btn-sm" role="button" title="Eliminar"><span class="glyphicon glyphicon-trash"></span></a>
+							<a href="${urlHorarios}/delete/${horario.id}" onclick='return confirm("¿Desea eliminar el horario?")' class="btn btn-danger btn-sm" role="button" title="Eliminar"><span class="glyphicon glyphicon-trash"></span></a>
 						</td>
 					</tr>
 				</c:forEach>
 	
 			</table>
 		</div>
+		
 		<nav aria-label="">
-		  <ul class="pager">
-		    <li><a href="${urlHorarios}/indexPaginate?page=${horarios.number - 1 }">Anterior</a></li>
-		    <li><a href="${urlHorarios}/indexPaginate?page=${horarios.number + 1 }">Siguiente</a></li>
-		  </ul>
+			<ul class="pager">
+			
+				<c:if test="${horarios.number>0 }">
+					<li><a href="${urlHorarios}/indexPaginate?page=${horarios.number - 1 }">Anterior</a></li>
+				</c:if>
+			
+				<c:if test="${horarios.number<horarios.totalPages -1}">
+					<li><a href="${urlHorarios}/indexPaginate?page=${horarios.number + 1 }">Siguiente</a></li>
+				</c:if>
+				
+			</ul>
 		</nav>
 
       <hr class="featurette-divider">

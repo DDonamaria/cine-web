@@ -35,7 +35,7 @@
 				</div>				
 							
 				<br>
-				<button class="btn btn-success" onclick="goBack()">REGRESAR</button>
+				<button class="btn btn-success" onclick="goBack()">Volver</button>
 			</div>
 		</div>
 

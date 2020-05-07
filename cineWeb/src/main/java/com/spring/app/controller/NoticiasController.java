@@ -1,5 +1,4 @@
-package
-com.spring.app.controller;
+package com.spring.app.controller;
 
 import java.util.List;
 
@@ -22,12 +21,13 @@ import com.spring.app.service.INoticiasService;
 @Controller
 @RequestMapping("/noticias")
 public class NoticiasController {
-	
+
 	@Autowired
 	private INoticiasService serviceNoticias;
-	
+
 	/**
 	 * Metodo para mostrar la lista de Noticias
+	 * 
 	 * @param model
 	 * @return
 	 */
@@ -37,9 +37,10 @@ public class NoticiasController {
 		model.addAttribute("noticias", listaNoticias);
 		return "noticias/listNoticias";
 	}
-	
+
 	/**
 	 * Metodo para mostrar la lista de los Noticias PAGINADAS
+	 * 
 	 * @param model
 	 * @return
 	 */
@@ -49,9 +50,10 @@ public class NoticiasController {
 		model.addAttribute("noticias", noticias);
 		return "noticias/listNoticias";
 	}
-	
+
 	/**
 	 * Metodo direccionar al formulario de creacion de Noticias
+	 * 
 	 * @param noticia
 	 * @return
 	 */
@@ -59,9 +61,10 @@ public class NoticiasController {
 	public String crear(@ModelAttribute Noticia noticia) {
 		return "noticias/formNoticia";
 	}
-	
+
 	/**
 	 * Metodo para crear/editar una Noticia
+	 * 
 	 * @param noticia
 	 * @param result
 	 * @param model
@@ -75,9 +78,11 @@ public class NoticiasController {
 		attributes.addFlashAttribute("mensaje", "La noticia se creo correctamente!");
 		return "redirect:/noticias/indexPaginate";
 	}
-	
+
 	/**
-	 * Metodo para mostrar el formulario de edicion con los datos de la Noticia seleccionado
+	 * Metodo para mostrar el formulario de edicion con los datos de la Noticia
+	 * seleccionado
+	 * 
 	 * @param idNoticia
 	 * @param model
 	 * @return
@@ -88,9 +93,10 @@ public class NoticiasController {
 		model.addAttribute("noticia", noticia);
 		return "noticias/formNoticia";
 	}
-	
+
 	/**
 	 * Metodo para eliminar el registro de la Noticia seleccionada
+	 * 
 	 * @param idNoticia
 	 * @param model
 	 * @param attributes

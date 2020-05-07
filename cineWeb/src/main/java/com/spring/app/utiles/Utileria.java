@@ -58,9 +58,7 @@ public class Utileria {
 		// apache-tomcat/webapps/cineapp/resources/images/
 		String rutaFinal = request.getServletContext().getRealPath("/resources/images/");
 
-		// Para evitar la ruta qeu monta por estar bajo git
-		// C:\Users\David\Mis
-		// Docus\Workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\cinemaWeb\resources
+		// Ruta temporal de ejecucion de eclipse
 		String rutaReal = "C:\\Users\\David\\Mis Docus\\Workspace\\repository_Git\\cinemaWeb\\cinemaWeb\\webapp\\resources\\images\\";
 
 		try {

@@ -70,13 +70,20 @@
             
         </table>
         
-		<nav aria-label="">
+        <nav aria-label="">
 			<ul class="pager">
+			
+				<c:if test="${peliculas.number>0 }">
 					<li><a href="${urlPeliculas}?page=${peliculas.number - 1 }">Anterior</a></li>
+				</c:if>
+			
+				<c:if test="${peliculas.number<peliculas.totalPages -1}">
 					<li><a href="${urlPeliculas}?page=${peliculas.number + 1 }">Siguiente</a></li>
+				</c:if>
+				
 			</ul>
 		</nav>
-
+			
       </div>
           
       <hr class="featurette-divider">

@@ -26,7 +26,7 @@
     <div class="container theme-showcase" role="main">
 
       <div class="page-header">
-	<h3 class="blog-title"><span class="label label-success">Datos de la Pelicula</span></h3>
+		<h3 class="blog-title">Datos de la Pelicula</h3>
       </div>
 	
 	<spring:hasBindErrors name="pelicula">

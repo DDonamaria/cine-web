@@ -22,8 +22,7 @@
 
     <div class="container theme-showcase" role="main">
 
-      <!-- Carousel
-    ================================================== -->
+      <!-- Carousel de imagenes -->
       <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
         <ol class="carousel-indicators">
@@ -38,6 +37,7 @@
 		       	</c:choose>
 		    </c:forEach>
         </ol>
+        
         <!-- Image Size 1140 x 250 -->
         <div class="carousel-inner" role="listbox">
        	<c:forEach items="${banners}" var="banner" varStatus="loop">
@@ -64,7 +64,7 @@
           <span class="sr-only">Next</span>
         </a>
       </div>
-      <!-- /.carousel -->
+      <!-- Fin Carousel de imagenes -->
 
       <div class="row page-header">          
         <div class="col-lg-12">         
@@ -84,13 +84,14 @@
 				      </c:choose>
 	              </c:forEach>
               </select>
-            </div>            
-            <button type="submit" class="btn btn-primary">Filtrar</button>
+            </div>         
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
           </form>
         </div>
       </div>
 
-      <!-- Marketing messaging -->
+      <!-- Seccion ultimas Noticias -->
       <div class="container marketing">
 
         <div class="row">
@@ -101,7 +102,7 @@
             <h4>${pelicula.titulo }</h4>
             <h4>
               <span class="label label-default">${pelicula.categoria }</span>
-              <span class="label label-default">${pelicula.duracion } min</span>
+              <span class="label label-default">${pelicula.duracion } min.</span>
               <span class="label label-default">${pelicula.genero }</span>
             </h4>         
             <p><a class="btn btn-sm btn-primary" href="detail?idMovie=${pelicula.id}&fecha=${fechaBusqueda}" role="button">Ver Detalles &raquo;</a></p>
@@ -134,7 +135,7 @@
 
       <jsp:include page="includes/footer.jsp" />
 
-    </div> <!-- /container -->
+    </div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

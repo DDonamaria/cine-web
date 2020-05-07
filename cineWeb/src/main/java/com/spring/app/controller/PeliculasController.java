@@ -1,6 +1,7 @@
 package com.spring.app.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,15 +33,16 @@ import com.spring.app.utiles.Utileria;
 @Controller
 @RequestMapping("/peliculas")
 public class PeliculasController {
-	
+
 	@Autowired
 	private IPeliculasService servicePeliculas;
-	
+
 	@Autowired
 	private IDetallesService serviceDetalles;
 
 	/**
 	 * Metodo para mostrar la lista de Peliculas
+	 * 
 	 * @param model
 	 * @return
 	 */
@@ -50,9 +52,10 @@ public class PeliculasController {
 		return "peliculas/listPeliculas";
 
 	}
-	
+
 	/**
 	 * Metodo para mostrar la lista de Peliculas PAGINADAS
+	 * 
 	 * @param model
 	 * @param page
 	 * @return
@@ -66,18 +69,19 @@ public class PeliculasController {
 
 	/**
 	 * Metodo direccionar al formulario de creacion de Peliculas
+	 * 
 	 * @param pelicula
 	 * @param model
 	 * @return
 	 */
 	@GetMapping("/create")
 	public String crear(@ModelAttribute Pelicula pelicula, Model model) {
-//		model.addAttribute("generos", servicePeliculas.buscarGeneros());
 		return "peliculas/formPelicula";
 	}
 
 	/**
 	 * Metodo para crear/editar una Pelicula
+	 * 
 	 * @param pelicula
 	 * @param result
 	 * @param attributes
@@ -86,34 +90,37 @@ public class PeliculasController {
 	 * @return
 	 */
 	@PostMapping("/save")
-	public String guardar(@ModelAttribute Pelicula pelicula, BindingResult result, RedirectAttributes attributes, 
+	public String guardar(@ModelAttribute Pelicula pelicula, BindingResult result, RedirectAttributes attributes,
 			@RequestParam("archivoImagen") MultipartFile multipart, HttpServletRequest request) {
-		
-		//Comprobamos si ha habido errores durante el data binding
-		if(result.hasErrors()) {
+
+		// Comprobamos si ha habido errores durante el data binding
+		if (result.hasErrors()) {
 			System.out.println("Se han producido ERRORES en el DATA BINDING");
-			for(ObjectError error : result.getAllErrors()) {
-			System.out.println(error.getDefaultMessage());
+
+			for (ObjectError error : result.getAllErrors()) {
+				System.out.println(error.getDefaultMessage());
 			}
 			return "peliculas/formPelicula";
 		}
-		
+
 		// Comprobamos si se ha cargado alguna imagen
-		if(!multipart.isEmpty()) {
+		if (!multipart.isEmpty()) {
 			String nombreImagen = Utileria.guardarImagen(multipart, request);
 			pelicula.setImagen(nombreImagen);
 		}
-		
-		//Guardamos el detalle
+
+		// Guardamos el detalle
 		serviceDetalles.guardar(pelicula.getDetalle());
-		//Guardamos la pelicula
+		// Guardamos la pelicula
 		servicePeliculas.guardar(pelicula);
 		attributes.addFlashAttribute("mensaje", "La pelicula se guardo correctamente");
 		return "redirect:/peliculas/indexPaginate";
 	}
-	
+
 	/**
-	 * Metodo para mostrar el formulario de edicion con los datos de la Pelicula seleccionado
+	 * Metodo para mostrar el formulario de edicion con los datos de la Pelicula
+	 * seleccionado
+	 * 
 	 * @param idPelicula
 	 * @param model
 	 * @return
@@ -122,46 +129,44 @@ public class PeliculasController {
 	public String editar(@PathVariable("id") int idPelicula, Model model) {
 		model.addAttribute("pelicula", servicePeliculas.buscarPorId(idPelicula));
 		return "peliculas/formPelicula";
-		
+
 	}
-	
-	/**
-	 * Metodo para eliminar la Pelicula seleccionada
-	 * @param idPelicula
-	 * @param attributes
-	 * @return
-	 */
+
 	@GetMapping(value = "/delete/{id}")
 	public String eliminar(@PathVariable("id") int idPelicula, RedirectAttributes attributes) {
-		System.out.println("llega al controller y cge id: " + idPelicula);
 		Pelicula pelicula = servicePeliculas.buscarPorId(idPelicula);
-		//Eliminamos la pelicula lo primero
+		// Eliminamos la pelicula lo primero
 		servicePeliculas.eliminar(idPelicula);
-		//Seguido eliminamos los detalles
+		// Seguido eliminamos los detalles
 		serviceDetalles.eliminar(pelicula.getDetalle().getId());
 		attributes.addFlashAttribute("mensaje", "La pelicula fue eliminada");
 		return "redirect:/peliculas/index";
-		
+
 	}
-	
+
 	/**
-	 * Agregamos al modelo, el listado de Generos para que este disponible
-	 * para todos los metodos de este controlador y la vista a la que direccionan
+	 * Agregamos al modelo, el listado de Generos para que este disponible para
+	 * todos los metodos de este controlador y la vista a la que direccionan
+	 * 
 	 * @return
 	 */
 	@ModelAttribute("generos")
-	public List<String> getGeneros(){
-		return servicePeliculas.buscarGeneros();		
+	public List<String> getGeneros() {
+		return servicePeliculas.buscarGeneros();
 	}
-	
+
 	/**
-	 * Metodo para personaliza el Data Binding 
+	 * Metodo para personalizar el formato de fecha en el Data Binding
+	 * 
 	 * @param binder
 	 */
 	@InitBinder
-	public void initBinder(WebDataBinder binder) {
+	private void dateBinder(WebDataBinder binder) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		binder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(dateFormat, false));
+		//Creamos el nuevo CustomDateEditor
+	    CustomDateEditor editor = new CustomDateEditor(dateFormat, true);
+	    //Registramos el CustomDateEditor como CustomEditor en el tipo de dato "Date"
+	    binder.registerCustomEditor(Date.class, editor);
 	}
 
 }

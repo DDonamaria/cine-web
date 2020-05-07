@@ -58,8 +58,8 @@
 							</c:otherwise>
 						</c:choose>								
 						<td>
-						   <a href="${urlEdit}/${noticia.id}" class="btn btn-success btn-sm" role="button" title="Edit"><span class="glyphicon glyphicon-pencil"></span></a>
-							<a href="${urlDelete}/${noticia.id}" onclick='return confirm("¿Estas seguro?")' class="btn btn-danger btn-sm" role="button" title="Eliminar"><span class="glyphicon glyphicon-trash"></span></a>
+						   	<a href="${urlEdit}/${noticia.id}" class="btn btn-success btn-sm" role="button" title="Edit"><span class="glyphicon glyphicon-pencil"></span></a>
+							<a href="${urlDelete}/${noticia.id}" onclick='return confirm("¿Desea eliminar la noticia?")' class="btn btn-danger btn-sm" role="button" title="Eliminar"><span class="glyphicon glyphicon-trash"></span></a>
 					   </td>
 					</tr>
 				</c:forEach>

@@ -22,10 +22,10 @@
 	
 	<div class="container theme-showcase" role="main">
 
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">ACERCA DE NOSOTROS</h3>
+			<div class="container theme-showcase" role="main">
+				<h3>Acerca de Nosotros</h3>
 			</div>
+			
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-sm-3">
@@ -34,20 +34,21 @@
 						</p>
 					</div>
 					<div class="col-sm-9">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h3 class="panel-title">Pagina desarrollada con Spring 5</h3>
+					
+						<div class="panel-heading">
+							<h3 class="panel-title">CineWeb</h3>
+						</div>
+						
+						<div class="panel-body">
+							<div class="alert alert-info" role="alert">
+							Esta es la pagina web de CineWeb, una simulacion de una web de un cine imaginario donde poder ver el 
+							catalogo de peliculas disponibles. Ha sido desarrollada con Java y Spring.
 							</div>
-							<div class="panel-body">
-								
-								<div class="alert alert-danger" role="alert">Pagina web de prueba simulando las oferta de peliculas de un cine.</div>
-								
-							</div>
+							
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
 		<jsp:include page="includes/footer.jsp" />		
 

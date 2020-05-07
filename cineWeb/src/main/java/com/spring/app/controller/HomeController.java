@@ -28,120 +28,104 @@ import com.spring.app.utiles.Utileria;
 
 @Controller
 public class HomeController {
-	
+
 	// Inyectamos las instancia desde el Root ApplicationContext
 	@Autowired
 	private IPeliculasService servicePeliculas;
-	
+
 	@Autowired
 	private IBannersService serviceBanners;
-	
+
 	@Autowired
 	private IHorariosService serviceHorarios;
-	
+
 	@Autowired
 	private INoticiasService serviceNoticias;
-	
+
 	// Formateador de Fecha
-	private SimpleDateFormat dateformater = new SimpleDateFormat("dd-MM-yyyy");
-	
-	/**
-	 * Metodo para mostrar la pagina principal
-	 * @param model
-	 * @return
-	 */
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
 	@GetMapping(value = "/")
 	public String goHome(Model model) {
 		List<String> listaFechas = Utileria.getNextDays(4);
 		List<Pelicula> listaPeliculas = servicePeliculas.buscarPorFecha(new Date());
-		
+
 		model.addAttribute("fechas", listaFechas);
 		// Añadimos la fecha actual ya que sera la fecha de busqueda por defecto
-		model.addAttribute("fechaBusqueda", dateformater.format(new Date()));
+		model.addAttribute("fechaBusqueda", dateFormat.format(new Date()));
 		model.addAttribute("peliculas", listaPeliculas);
-		
-		return "home";
-	}
-	
-	/**
-	 * Metodo para filtrar peliculas por fecha en la pagina principal
-	 * @param fecha
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "/search", method = RequestMethod.POST)
-	public String buscar(@RequestParam("fecha") Date fecha, Model model) {
-		try { //Controlamos posibles errores durante el parseo de la fecha
-			List<String> listaFechas = Utileria.getNextDays(4);
-			
-			//Formateamos la fecha al formato dd-MM-yyyy
-			String fechaFormateada = dateformater.format(fecha);
-			//Pasamos la fecha formateada de String a Date
-			Date fechaFormaString = dateformater.parse(fechaFormateada);
-			List<Pelicula> lista = servicePeliculas.buscarPorFecha(fechaFormaString);
-			
-			model.addAttribute("fechas", listaFechas);
-			model.addAttribute("fechaBusqueda", fechaFormateada);
-			model.addAttribute("peliculas", lista);
-		} catch (Exception e) {
-			System.out.println("Error: HomeController.buscar() " + e.getMessage());
-		}
+
 		return "home";
 	}
 
-	/**
-	 * Metodo para mostrar detalles de la pelicula seleccionada 
-	 * @param model
-	 * @param idPelicula
-	 * @param fecha
-	 * @return
-	 */
-	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public String mostrarDetalle(Model model, @RequestParam("idMovie") int idPelicula,
-			@RequestParam("fecha") Date fecha) {
+	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	public String buscar(@RequestParam("fecha") Date fecha, Model model) {
+		// Control posibles errores durante el parseo de la fecha
+		try { 
+			//Metodo para obtener X dias siguientes
+			List<String> listaFechas = Utileria.getNextDays(4);
+
+			// Formateamos la fecha al formato dd-MM-yyyy
+			String fechaFormateada = dateFormat.format(fecha);
+			// Pasamos la fecha formateada de String a Date
+			Date fechaFormaString = dateFormat.parse(fechaFormateada);
+			
+			List<Pelicula> lista = servicePeliculas.buscarPorFecha(fechaFormaString);
+
+			model.addAttribute("fechas", listaFechas);
+			model.addAttribute("fechaBusqueda", fechaFormateada);
+			model.addAttribute("peliculas", lista);
+			
+		} catch (Exception e) {
+			System.out.println("Error: HomeController.buscar() " + e.getMessage());
+		}
 		
+		return "home";
+	}
+
+	@RequestMapping(value = "/detail", method = RequestMethod.GET)
+	public String mostrarDetalle(Model model, @RequestParam("idMovie") int idPelicula, @RequestParam("fecha") Date fecha) {
+
 		List<Horario> horarios = serviceHorarios.buscarPorIdPelicula(idPelicula, fecha);
+		
 		model.addAttribute("horarios", horarios);
-		model.addAttribute("fechaBusqueda", dateformater.format(fecha));
+		model.addAttribute("fechaBusqueda", dateFormat.format(fecha));
 		model.addAttribute("pelicula", servicePeliculas.buscarPorId(idPelicula));
 
 		return "detail";
 	}
-	
-	/**
-	 * Metodo para direccionar a la vista de Acerca de Nosotros
-	 * @return
-	 */
+
 	@RequestMapping(value = "/about")
-	public String mostrarAcerca() {			
+	public String mostrarAcerca() {
 		return "acerca";
 	}
-	
-	/**
-	 * Metodo para obtener los Banners activos y añadirlos al MODELO
-	 * @return
-	 */
+
+	@RequestMapping(value = "/formLogin", method = RequestMethod.GET)
+	public String mostrarLogin() {
+		return "formLogin";
+	}
+
 	@ModelAttribute("banners")
-	public List<Banner> getBannersActivos(){
+	public List<Banner> getBannersActivos() {
 		return serviceBanners.buscarActivos();
 	}
-	
-	/**
-	 * Metodo para obtener las ultimas 3 Noticias y añadirlas al MODELO
-	 * @return
-	 */
+
 	@ModelAttribute("noticias")
-	public List<Noticia> getUltimasNoticias(){
+	public List<Noticia> getUltimasNoticias() {
 		return serviceNoticias.buscarUltimas();
 	}
-	
+
 	/**
-	 * Metodo para personaliza el Data Binding 
+	 * Metodo para personalizar el formato de fecha en el Data Binding
+	 * 
 	 * @param binder
 	 */
 	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(dateformater, false));
+	private void dateBinder(WebDataBinder binder) {
+		//Creamos el nuevo CustomDateEditor
+	    CustomDateEditor editor = new CustomDateEditor(dateFormat, true);
+	    //Registramos el CustomDateEditor como CustomEditor en el tipo de dato "Date"
+	    binder.registerCustomEditor(Date.class, editor);
 	}
-	
+
 }
